@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demo Shop — User Analytics Tracker Test</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f8fafc;
+      color: #1e293b;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #0f172a;
+      color: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header .logo { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.5px; }
+    nav a { color: #94a3b8; text-decoration: none; margin-left: 1.5rem; font-size: 0.9rem; }
+    nav a:hover { color: #fff; }
+
+    .hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+      color: #fff;
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+    .hero h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 1rem; }
+    .hero p { font-size: 1.15rem; color: #94a3b8; max-width: 560px; margin: 0 auto 2rem; }
+    .btn-primary {
+      display: inline-block;
+      background: #3b82f6;
+      color: #fff;
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: #2563eb; }
+
+    .products {
+      max-width: 1100px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+    }
+    .products h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 1.5rem; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+    .card-img {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+    }
+    .card-body { padding: 1rem; }
+    .card-body h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
+    .card-body .price { color: #3b82f6; font-weight: 700; font-size: 1.1rem; }
+    .card-body .add-btn {
+      margin-top: 0.75rem;
+      width: 100%;
+      padding: 0.5rem;
+      background: #f1f5f9;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .card-body .add-btn:hover { background: #e2e8f0; }
+    .cta-banner {
+      background: #3b82f6;
+      color: #fff;
+      text-align: center;
+      padding: 3rem 2rem;
+      margin-top: 3rem;
+    }
+    .cta-banner h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.75rem; }
+    .cta-banner p { margin-bottom: 1.5rem; opacity: 0.9; }
+    footer {
+      background: #0f172a;
+      color: #64748b;
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.85rem;
+      margin-top: 0;
+    }
+    .toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: #0f172a;
+      color: #fff;
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <span class="logo">DemoShop</span>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Products</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Track Every Click, Every Journey</h1>
+    <p>This is a demo page to test the CausalFunnel analytics tracker. Interact with the elements below and watch events appear in your dashboard.</p>
+    <a href="#products" class="btn-primary">Explore Products</a>
+  </section>
+
+  <section class="products" id="products">
+    <h2>Featured Products</h2>
+    <div class="grid">
+      <div class="card">
+        <div class="card-img" style="background:#eff6ff">🎧</div>
+        <div class="card-body">
+          <h3>Pro Headphones</h3>
+          <div class="price">₹4,999</div>
+          <button class="add-btn" onclick="addToCart('Pro Headphones')">Add to Cart</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-img" style="background:#f0fdf4">💻</div>
+        <div class="card-body">
+          <h3>Laptop Stand</h3>
+          <div class="price">₹1,299</div>
+          <button class="add-btn" onclick="addToCart('Laptop Stand')">Add to Cart</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-img" style="background:#fefce8">⌨️</div>
+        <div class="card-body">
+          <h3>Mechanical Keyboard</h3>
+          <div class="price">₹3,499</div>
+          <button class="add-btn" onclick="addToCart('Mechanical Keyboard')">Add to Cart</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-img" style="background:#fdf2f8">🖱️</div>
+        <div class="card-body">
+          <h3>Wireless Mouse</h3>
+          <div class="price">₹899</div>
+          <button class="add-btn" onclick="addToCart('Wireless Mouse')">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-banner">
+    <h2>Ready to understand your users?</h2>
+    <p>Sign up and start tracking real user behavior in minutes.</p>
+    <button class="btn-primary" onclick="alert('Sign-up flow coming soon!')">Get Started Free</button>
+  </div>
+
+  <footer>
+    &copy; 2024 User Analytics Demo Page — All interactions are tracked for testing purposes.
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    function addToCart(name) {
+      const toast = document.getElementById('toast');
+      toast.textContent = `${name} added to cart`;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+  </script>
+
+  <script src="http://localhost:5000/tracker.js" data-endpoint="http://localhost:5000"></script>
+
+</body>
+</html>

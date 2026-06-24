@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/db");
+const path = require("path");
 const eventsRoutes = require("./routes/events");
 const heatmapRoutes = require("./routes/heatmap");
 const statsRoutes = require("./routes/stats");
@@ -25,6 +26,10 @@ app.use(cors({
   credentials: true,
 }));
 
+app.use(
+  "/tracker",
+  express.static(path.join(__dirname, "tracker"))
+);
 app.use(express.json());
 app.use("/api/events", eventsRoutes);
 app.use("/api/stats", statsRoutes);

@@ -8,8 +8,11 @@
 
     localStorage.setItem(SESSION_KEY, sessionId);
   }
+  const endpoint =
+    document.currentScript.dataset.endpoint;
+
   function sendEvent(eventData) {
-    fetch("http://localhost:5000/api/events", {
+    fetch(`${endpoint}/api/events`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
